@@ -33,19 +33,28 @@
         <div class="cj-brand-sub">오가닉 콘텐츠 → 보험 랜딩 → 상담</div>
       </div>
     </div>
+    <nav class="cj-navgroup" aria-label="운영">
+      <div class="cj-navlabel">운영</div>
+      <button class="cj-nav" data-go="report">주간 보고</button>
+      <button class="cj-nav" data-go="intake">접수 현황</button>
+    </nav>
     <nav class="cj-navgroup" aria-label="고객 여정">
       <div class="cj-navlabel">고객 여정</div>
       <button class="cj-nav on" data-go="flow">흐름</button>
       <button class="cj-nav" data-go="channels">채널 성과</button>
       <button class="cj-nav" data-go="contents">콘텐츠 성과</button>
     </nav>
-    <nav class="cj-navgroup" aria-label="운영">
-      <div class="cj-navlabel">운영</div>
+    <nav class="cj-navgroup" aria-label="콘텐츠 제작">
+      <div class="cj-navlabel">콘텐츠 제작</div>
       <button class="cj-nav" data-go="pipeline">제작 파이프라인</button>
+    </nav>
+    <nav class="cj-navgroup" aria-label="도움말">
+      <div class="cj-navlabel">도움말</div>
       <button class="cj-nav" data-go="terms">단어 정의</button>
     </nav>
     <div class="cj-side-foot">
       <span id="updated" class="cj-muted"></span>
+      <button id="cj-live" class="cj-link" type="button" hidden>최신 값 다시 읽기</button>
       <button id="logout" class="cj-link" type="button" hidden>로그아웃</button>
     </div>
   </aside>
@@ -59,6 +68,11 @@
           <button class="cj-chip" data-range="28">최근 4주</button>
           <button class="cj-chip" data-range="all">전체 (8/24 측정 시작부터)</button>
         </div>
+        <span class="cj-flabel">직접</span>
+        <input type="date" id="cj-start" aria-label="시작일" style="padding:.3rem .4rem;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--fg);font:inherit;">
+        <span class="cj-flabel">~</span>
+        <input type="date" id="cj-end" aria-label="종료일" style="padding:.3rem .4rem;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--fg);font:inherit;">
+        <button id="cj-apply" type="button" style="padding:.35rem .7rem;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--fg);font:inherit;font-weight:600;cursor:pointer;">적용</button>
         <span id="period" class="cj-period"></span>
       </div>
       <div class="cj-frow">
@@ -87,12 +101,19 @@
         <div class="cj-kpi"><span class="cj-kpi-l">상담 신청</span><span class="cj-kpi-v" data-k="consults">—</span></div>
         <div class="cj-kpi"><span class="cj-kpi-l">전환율 (상담 ÷ 유저)</span><span class="cj-kpi-v" data-k="rate">—</span></div>
         <div class="cj-kpi"><span class="cj-kpi-l">랜딩 인입 (전체 조회)</span><span class="cj-kpi-v" data-k="inflow">—</span></div>
+        <div class="cj-kpi"><span class="cj-kpi-l">발행 콘텐츠 (기간 내)</span><span class="cj-kpi-v" data-k="published">—</span></div>
       </div>
       <div class="cj-card">
-        <h2>채널 → 콘텐츠 → 결말</h2>
-        <p class="cj-note">왼쪽부터 유입 채널, 콘텐츠 보드에 등록된 콘텐츠, 상담 신청 여부입니다. 선 굵기는 유저 수에 비례합니다. 보드에 없는 콘텐츠는 채널마다 「그 밖」으로 묶었습니다. 선이나 칸에 올리면 숫자가 보입니다.</p>
-        <div class="cj-legend"><span><i class="cj-sw cj-sw-ok"></i>상담 신청</span><span><i class="cj-sw cj-sw-mute"></i>미신청</span></div>
+        <h2>채널별 랜딩 유저와 상담 신청</h2>
+        <p class="cj-note">오가닉 채널별 보험 랜딩 유저 수(막대 길이)와, 그중 상담을 신청한 수(초록)·전환율입니다. 막대에 올리면 숫자가 보입니다. 콘텐츠별 상세는 '콘텐츠 성과' 탭에 있습니다.</p>
+        <div class="cj-legend"><span>막대 길이 = 랜딩 유저</span><span><i class="cj-sw cj-sw-ok"></i>상담 신청</span></div>
         <div id="flow-chart" class="cj-chart"></div>
+      </div>
+      <div class="cj-card">
+        <h2>채널 → 콘텐츠 → 상담</h2>
+        <p class="cj-note">왼쪽부터 유입 채널, 콘텐츠, 상담 신청 여부입니다. 선 굵기는 유저 수에 비례합니다. 채널마다 유저가 많은 콘텐츠 상위 5개(위에서 채널 하나만 고르면 10개)만 칸을 주고, 나머지와 보드에 없는 유입은 「그 밖」으로 묶었습니다. 상담이 난 콘텐츠는 굵게 표시합니다. 묶인 콘텐츠는 '콘텐츠 성과' 탭에서 모두 볼 수 있습니다.</p>
+        <div class="cj-legend"><span><i class="cj-sw cj-sw-ok"></i>상담 신청</span><span><i class="cj-sw cj-sw-mute"></i>미신청</span></div>
+        <div id="journey-chart" class="cj-chart"></div>
       </div>
     </section>
 
@@ -100,11 +121,26 @@
       <div class="cj-head"><h1>채널 성과</h1><p>utm_medium 기준 오가닉 채널별 보험 랜딩 유입과 상담 신청입니다.</p></div>
       <div class="cj-card">
         <h2>채널별 합계</h2>
-        <p class="cj-note">인스타는 Reels·Feed·Stories를 더한 값입니다.</p>
+        <p class="cj-note">인스타는 Reels·Feed·Stories를 더한 값입니다. 발행수는 콘텐츠 보드 발행일(1본부 OCMU 발행일자 기준)이 선택 기간 안인 콘텐츠 수, 발행 예정은 발행일이 오늘 이후로 잡힌 예약 발행 수입니다.</p>
         <div class="cj-tablebox">
           <table>
-            <thead><tr><th>채널</th><th class="cj-num">랜딩 유저</th><th class="cj-num">상담 신청</th><th class="cj-num">전환율</th><th class="cj-num">랜딩 인입</th></tr></thead>
+            <thead><tr><th>채널</th><th class="cj-num">랜딩 유저</th><th class="cj-num">상담 신청</th><th class="cj-num">전환율</th><th class="cj-num">랜딩 인입</th><th class="cj-num">발행수</th><th class="cj-num">발행 예정</th></tr></thead>
             <tbody id="channel-rows"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="cj-card">
+        <h2>채널별 발행수</h2>
+        <p class="cj-note">진한 막대는 선택 기간 안에 발행한 콘텐츠, 옅은 막대는 발행일이 오늘 이후로 잡힌 예약 발행입니다. 발행일은 콘텐츠 보드(1본부 OCMU 발행일자 기준)에서 읽습니다.</p>
+        <div id="pub-chart" class="cj-chart-sm"></div>
+      </div>
+      <div class="cj-card">
+        <h2>주별 채널 발행수</h2>
+        <p class="cj-note">발행일이 속한 주(월요일 시작)별로 채널마다 몇 건을 발행했는지입니다. 최근 주가 위에 있습니다.</p>
+        <div class="cj-tablebox">
+          <table>
+            <thead id="pub-head"></thead>
+            <tbody id="pub-rows"></tbody>
           </table>
         </div>
       </div>
@@ -129,6 +165,130 @@
       </div>
     </section>
 
+    <section id="report" class="cj-page cj-report" hidden>
+      <div class="cj-head cj-rp-head">
+        <div class="cj-rp-top">
+          <div>
+            <h1>주간 마케팅 성과 보고</h1>
+            <p>보고 기간 <b id="rp-period">—</b> · 위쪽 기간 버튼(직접 설정 포함)으로 보고 기간을 바꿉니다. 회색 숫자는 이 대시보드에서 자동으로 채워지고, 흰 칸은 직접 입력합니다.</p>
+          </div>
+          <div class="cj-rp-actions">
+            <span id="rp-status" class="cj-muted">자동 저장됨</span>
+            <button id="rp-print" type="button" class="cj-btn cj-btn-primary">인쇄 / PDF</button>
+            <button id="rp-reset" type="button" class="cj-btn">새 주차</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cj-card">
+        <h2>01 금주 핵심 성과</h2>
+        <p class="cj-note">DB · 상담 · 계약 (DISCO 접수 기준, 직접 입력)</p>
+        <div class="cj-kpis">
+          <label class="cj-kpi cj-in"><span class="cj-kpi-l">인입 DB (총 DB)</span><input data-rp="totalDb" inputmode="numeric" placeholder="0"></label>
+          <label class="cj-kpi cj-in"><span class="cj-kpi-l">유효 DB (간이정의)</span><input data-rp="validDb" inputmode="numeric" placeholder="0"></label>
+          <div class="cj-kpi"><span class="cj-kpi-l">유효 DB율</span><span class="cj-kpi-v" data-rpc="validRate">—</span></div>
+          <label class="cj-kpi cj-in"><span class="cj-kpi-l">상담 연결</span><input data-rp="consult" inputmode="numeric" placeholder="0"></label>
+          <div class="cj-kpi"><span class="cj-kpi-l">상담 연결율 (연결 ÷ 인입)</span><span class="cj-kpi-v" data-rpc="connRate">—</span></div>
+          <label class="cj-kpi cj-in"><span class="cj-kpi-l">계약 건수</span><input data-rp="contract" inputmode="numeric" placeholder="0"></label>
+        </div>
+        <p class="cj-note">인입 DB = 접수(DISCO) 전체 · 유효 DB = 인입 − 무효(기타·미분류) · 상담 연결 = 통화 연결 상태 합(상담완료·진행중·재통화·거절·계약) · 계약 = 상태 '계약'. 상담이력 엑셀은 report\db_summary.py로 집계할 수 있습니다.</p>
+        <p class="cj-note" style="margin-top:6px"><b>오가닉 콘텐츠 (자동)</b> — 콘텐츠 보드 발행일과 Mixpanel 보험 랜딩 기준</p>
+        <div class="cj-kpis">
+          <div class="cj-kpi"><span class="cj-kpi-l">카페 발행</span><span class="cj-kpi-v" data-rpa="pub:카페">—</span></div>
+          <div class="cj-kpi"><span class="cj-kpi-l">블로그 발행</span><span class="cj-kpi-v" data-rpa="pub:블로그">—</span></div>
+          <div class="cj-kpi"><span class="cj-kpi-l">유튜브 발행</span><span class="cj-kpi-v" data-rpa="pub:유튜브">—</span></div>
+          <div class="cj-kpi"><span class="cj-kpi-l">꿀팁게시판 발행</span><span class="cj-kpi-v" data-rpa="pub:꿀팁게시판">—</span></div>
+          <div class="cj-kpi"><span class="cj-kpi-l">발행 합계</span><span class="cj-kpi-v" data-rpa="pubTotal">—</span></div>
+        </div>
+        <div class="cj-kpis">
+          <div class="cj-kpi"><span class="cj-kpi-l">랜딩 유저</span><span class="cj-kpi-v" data-rpa="users">—</span></div>
+          <div class="cj-kpi"><span class="cj-kpi-l">상담 신청 (랜딩 버튼)</span><span class="cj-kpi-v" data-rpa="consults">—</span></div>
+          <div class="cj-kpi"><span class="cj-kpi-l">전환율</span><span class="cj-kpi-v" data-rpa="rate">—</span></div>
+        </div>
+        <div class="cj-tablebox">
+          <table>
+            <thead><tr><th>채널</th><th class="cj-num">발행</th><th class="cj-num">랜딩 유저</th><th class="cj-num">상담 신청</th><th class="cj-num">전환율</th></tr></thead>
+            <tbody id="rp-channels"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="cj-card">
+        <h2>02 주요 성과</h2>
+        <div class="cj-edit" contenteditable data-rp="wins" data-ph="• 금주 잘된 점을 적습니다 (한 줄에 하나씩)"></div>
+      </div>
+
+      <div class="cj-card">
+        <h2>03 주요 문제점</h2>
+        <div class="cj-edit" contenteditable data-rp="issues" data-ph="• 문제·리스크를 적습니다"></div>
+      </div>
+
+      <div class="cj-card">
+        <h2>04 상담 연결이 줄어드는 이유</h2>
+        <p class="cj-note">지난주 대비 상담 연결</p>
+        <div class="cj-kpis">
+          <label class="cj-kpi cj-in"><span class="cj-kpi-l">지난주 인입 DB</span><input data-rp="prevDb" inputmode="numeric" placeholder="0"></label>
+          <label class="cj-kpi cj-in"><span class="cj-kpi-l">지난주 상담 연결</span><input data-rp="prevConsult" inputmode="numeric" placeholder="0"><span class="cj-calc" data-rpc="prevRate"></span></label>
+          <div class="cj-kpi"><span class="cj-kpi-l">상담 연결 증감</span><span class="cj-kpi-v" data-rpc="connDiff">—</span><span class="cj-calc" data-rpc="connDiffNote"></span></div>
+        </div>
+        <p class="cj-note">연결되지 않은 DB (금주)</p>
+        <div class="cj-kpis">
+          <label class="cj-kpi cj-in"><span class="cj-kpi-l">부재</span><input data-rp="ncAbsent" inputmode="numeric" placeholder="0"></label>
+          <label class="cj-kpi cj-in"><span class="cj-kpi-l">대기중 (미처리)</span><input data-rp="ncWaiting" inputmode="numeric" placeholder="0"></label>
+          <label class="cj-kpi cj-in"><span class="cj-kpi-l">기타·무효</span><input data-rp="ncEtc" inputmode="numeric" placeholder="0"></label>
+          <div class="cj-kpi"><span class="cj-kpi-l">미연결 합계 (인입 − 연결)</span><span class="cj-kpi-v" data-rpc="ncTotal">—</span><span class="cj-calc" data-rpc="ncNote"></span></div>
+        </div>
+        <p class="cj-note">원인과 대응</p>
+        <div class="cj-edit" contenteditable data-rp="connWhy" data-ph="• 부재 증가 — 통화 시도 횟수·시간대(점심·저녁) 확인&#10;• 대기중 미처리 — 상담 인력·배정 지연, 주말·공휴일 인입&#10;• DB 질 — 유입 채널·랜딩 변경, 중복·허위 번호&#10;• 인입 자체 감소 — 광고·콘텐츠 발행량 변화&#10;→ 대응: …"></div>
+      </div>
+
+      <div class="cj-card">
+        <h2>05 채널별 평가</h2>
+        <div class="cj-rp-grid">
+          <div><p class="cj-note">성과 우수 채널</p><div class="cj-edit" contenteditable data-rp="chGood" data-ph="예) 꿀팁게시판 — 전환율 높음"></div></div>
+          <div><p class="cj-note">개선 필요 채널</p><div class="cj-edit" contenteditable data-rp="chBad" data-ph="예) 블로그 — 유입 대비 상담 저조"></div></div>
+          <div class="cj-rp-wide"><p class="cj-note">신규 추진 채널</p><div class="cj-edit" contenteditable data-rp="chNew" data-ph="예) 인스타 릴스 테스트"></div></div>
+        </div>
+      </div>
+
+      <div class="cj-card">
+        <h2>06 다음 주 핵심 실행 과제</h2>
+        <div class="cj-edit" contenteditable data-rp="tasks" data-ph="1. …&#10;2. …&#10;3. …"></div>
+      </div>
+
+      <div class="cj-card">
+        <h2>07 의사결정 필요 사항</h2>
+        <div class="cj-rp-grid">
+          <div><p class="cj-note">예산 승인</p><div class="cj-edit" contenteditable data-rp="dBudget" data-ph="필요 시 금액·사유"></div></div>
+          <div><p class="cj-note">인력 지원</p><div class="cj-edit" contenteditable data-rp="dPeople"></div></div>
+          <div><p class="cj-note">유관 부서 협조</p><div class="cj-edit" contenteditable data-rp="dDept"></div></div>
+          <div><p class="cj-note">기타</p><div class="cj-edit" contenteditable data-rp="dEtc"></div></div>
+        </div>
+      </div>
+
+      <div class="cj-card">
+        <h2>08 종합 의견</h2>
+        <div class="cj-edit" contenteditable data-rp="summary" data-ph="금주 마케팅 성과 및 다음 주 운영 방향을 요약 기재합니다."></div>
+      </div>
+      <p class="cj-note">입력 내용은 이 브라우저에만 저장됩니다. 팀과 공유할 때는 '인쇄 / PDF'로 내보내세요.</p>
+    </section>
+
+    <section id="intake" class="cj-page" hidden>
+      <div class="cj-head">
+        <h1>접수 현황</h1>
+        <p>접수·체결(계약) 현황은 DISCO를 매일 실시간으로 읽는 <b>채널별 유입 대시보드(aji-db)</b>에서 보세요. content-journey 자체 접수 집계는 접수 구글시트 접근이 복구될 때까지 중단했습니다.</p>
+      </div>
+      <div class="cj-card">
+        <h2>실시간 접수·유입 현황</h2>
+        <p class="cj-note">아래 버튼을 누르면 매일 DISCO 동기화되는 채널별 유입·체결 현황(aji-db)이 새 창으로 열립니다.</p>
+        <p style="margin:.4rem 0;">
+          <a href="https://aji-db.vercel.app/" target="_blank" rel="noopener"
+             style="display:inline-block;background:var(--accent);color:var(--panel);padding:.55rem .9rem;border-radius:6px;font-weight:600;text-decoration:none;">채널별 유입 현황 열기 ↗</a>
+        </p>
+        <p class="cj-note" id="intake-note"></p>
+      </div>
+    </section>
+
     <section id="pipeline" class="cj-page" hidden>
       <div class="cj-head"><h1>제작 파이프라인</h1><p>콘텐츠 보드의 '현재 단계' 기준입니다. 시트에서 단계를 바꾸면 다음에 열 때 반영됩니다.</p></div>
       <div class="cj-pipe">
@@ -141,7 +301,7 @@
     </section>
 
     <section id="terms" class="cj-page" hidden>
-      <div class="cj-head"><h1>단어 정의</h1><p>숫자는 Mixpanel 프로젝트 AJD와 구글 시트 '콘텐츠 보드' 탭에서 읽습니다. 같은 기간은 30분 동안 다시 조회하지 않습니다.</p></div>
+      <div class="cj-head"><h1>단어 정의</h1><p>숫자는 Mixpanel 프로젝트 AJD와 구글 시트 '콘텐츠 보드' 탭에서 읽습니다. '접수 현황'은 상담 DB 시트에서 읽습니다. 같은 기간은 30분 동안 다시 조회하지 않습니다.</p></div>
       <div class="cj-card">
         <dl class="cj-terms">
           <dt>랜딩 유저</dt><dd>보험 랜딩(<code>view_insurance_main</code>)을 본 고유 유저 수를 날마다 센 뒤 더한 값입니다. 같은 사람이 이틀 왔다면 두 번 셉니다.</dd>
@@ -149,9 +309,13 @@
           <dt>상담 신청</dt><dd>보험 신청 버튼(<code>click_insurance_apply_submit</code>)을 누른 고유 유저 수를 날마다 센 뒤 더한 값입니다.</dd>
           <dt>전환율</dt><dd>상담 신청 ÷ 랜딩 유저입니다.</dd>
           <dt>오가닉 채널</dt><dd>utm_medium이 youtube, blog, cafe, Instagram(Reels·Feed·Stories), basictip(꿀팁게시판), community인 유입입니다. 검색광고와 브랜드 검색은 뺍니다.</dd>
-          <dt>Mixpanel 키</dt><dd>콘텐츠 보드에 적는 utm_content의 일부입니다. 이 글자가 들어간 utm_content를 그 콘텐츠의 성과로 셉니다.</dd>
+          <dt>Mixpanel 키</dt><dd>콘텐츠 보드에 적는 utm_content의 일부입니다. 이 글자가 들어간 utm_content를 그 콘텐츠의 성과로 셉니다. 꿀팁게시판은 글 주소 끝의 글 번호를 적고, 보험 랜딩 직전에 본 페이지가 그 글인 방문을 셉니다.</dd>
           <dt>그 밖</dt><dd>채널 합계에서 보드에 등록된 콘텐츠를 뺀 나머지입니다.</dd>
           <dt>조회수·비용</dt><dd>각 플랫폼 조회수와 제작·집행 비용은 콘텐츠 보드에 사람이 적은 값입니다.</dd>
+          <dt>접수</dt><dd>상담 DB(<code>AJI_DB_DISCO_상담</code>)에 실제 등록된 상담 건입니다. 위의 <b>상담 신청</b>(보험 랜딩에서 버튼 클릭)과 달리, 운영 DB에 남은 실측치입니다. 둘은 다른 숫자입니다.</dd>
+          <dt>계약</dt><dd>접수 중 상태가 '계약'인 건입니다. (시트의 '체결' 열은 비어 있어 상태 값으로 셉니다.)</dd>
+          <dt>계약전환율</dt><dd>계약 ÷ 접수입니다. '전환율'(상담 신청 ÷ 랜딩 유저)과는 다른 단계의 지표입니다.</dd>
+          <dt>유입처</dt><dd>상담 DB의 '최초 유입처'(플랫폼·카카오톡·오프라인·인바운드 등)입니다. 콘텐츠 대시보드의 오가닉 채널(유튜브·블로그·카페…)과는 다른 운영 분류입니다.</dd>
         </dl>
       </div>
     </section>
