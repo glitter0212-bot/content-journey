@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>주간 마케팅 성과 보고</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+:root{
+  --brand-1:#068df9; --brand-2:#145ce6; --brand:#1168ea; --brand-ink:#0d4fc4; --brand-fill:#eaf3ff;
+  --grad:linear-gradient(135deg,var(--brand-1) 0%,var(--brand-2) 100%);
+  --bg:#f6f8fa; --page:#ffffff; --fill:#f6f8fa; --fill-2:#eef1f5;
+  --ink:#0f1723; --ink-body:#2b3648; --ink-2:#48546a; --ink-3:#646d80; --line:#e6eaef;
+  --green-ink:#00753a; --green-fill:#e6f8ee; --amber-ink:#a35c00; --amber-fill:#fff5e6;
+  --r-l:10px; --r-m:7px; --r-s:4px;
+  --sans:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink-body);font-family:var(--sans);
+  font-size:16px;font-weight:550;line-height:1.72;letter-spacing:-.019em;word-break:keep-all;
+  font-feature-settings:"tnum" 1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+strong,b{font-weight:800;color:var(--ink)}
+a{color:var(--brand-ink);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--sans);font-weight:700;font-size:.92em;background:var(--fill-2);border-radius:var(--r-s);padding:1px 6px;color:var(--ink)}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:20;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:11px 18px}
+.toolbar strong{font-weight:850;color:var(--ink);letter-spacing:-.03em}
+.toolbar .sp{flex:1}
+.toolbar .status{color:var(--ink-3);font-size:12.5px;font-weight:700}
+.toolbar button{font:inherit;font-weight:800;border:1px solid var(--line);background:var(--page);color:var(--ink-2);
+  border-radius:var(--r-m);padding:.5rem .9rem;cursor:pointer;letter-spacing:-.02em}
+.toolbar button.primary{background:var(--brand-2);color:#fff;border-color:var(--brand-2)}
+
+.wrap{max-width:840px;margin:22px auto;padding:0 18px}
+.page{background:var(--page);border:1px solid var(--line);border-radius:14px;padding:46px 48px;box-shadow:0 1px 2px rgba(15,23,35,.04)}
+
+.brand{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.brand .name{font-size:16px;font-weight:850;letter-spacing:-.035em;color:var(--ink)}
+.brand .div{width:1px;height:14px;background:var(--line)}
+.brand .doc{font-size:13.5px;font-weight:700;color:var(--ink-3)}
+
+.hero{padding:26px 0 34px;border-bottom:1px solid var(--line);margin-bottom:34px}
+.eyebrow{display:inline-block;font-size:12.5px;font-weight:850;letter-spacing:.01em;color:#fff;
+  background:var(--brand-2);border-radius:6px;padding:6px 13px;margin:0 0 18px;line-height:1.4}
+h1{font-size:clamp(30px,5vw,44px);font-weight:850;line-height:1.22;letter-spacing:-.045em;color:var(--ink);margin:0 0 16px}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--brand)}
+.lede{font-size:16px;font-weight:600;color:var(--ink-2);margin:0 0 22px;max-width:40em}
+.meta{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.meta .m{font-size:13px;font-weight:750;color:var(--ink-2);background:var(--fill-2);border-radius:6px;padding:7px 12px;line-height:1.4;display:inline-flex;align-items:center;gap:6px}
+.meta .m i{font-style:normal;color:var(--ink-3);font-weight:600}
+.meta input[type=date]{font:inherit;font-weight:750;font-size:13px;border:0;background:transparent;color:var(--brand-ink);padding:0}
+
+section.blk{padding:30px 0 0}
+.sec-num{display:block;font-size:12px;font-weight:850;letter-spacing:.12em;color:var(--brand-ink);margin-bottom:8px}
+h2{font-size:clamp(21px,3.4vw,26px);font-weight:850;letter-spacing:-.04em;line-height:1.3;color:var(--ink);margin:0 0 16px}
+.sub-h{font-size:13px;font-weight:850;color:var(--ink-3);letter-spacing:-.01em;margin:4px 0 10px}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--fill);border:1px solid var(--line);border-radius:var(--r-l);padding:14px 16px}
+.kpi.accent{background:var(--brand-fill);border-color:#cfe1ff}
+.kpi label{display:block;color:var(--ink-3);font-size:12.5px;font-weight:750;margin-bottom:5px}
+.kpi .val{display:flex;align-items:baseline;gap:4px}
+.kpi input{font:inherit;font-size:22px;font-weight:850;letter-spacing:-.03em;border:0;border-bottom:1.5px dashed #cfd6e0;background:transparent;color:var(--ink);width:100%;padding:2px 0}
+.kpi input:focus{outline:none;border-bottom-color:var(--brand)}
+.kpi .unit{color:var(--ink-3);font-size:13px;font-weight:800}
+.kpi .calc{color:var(--green-ink);font-size:11px;font-weight:700;margin-top:4px;min-height:1em}
+.hint{color:var(--ink-3);font-size:12.5px;font-weight:600;margin:12px 0 0;line-height:1.6}
+
+/* editable */
+.edit{border:1px solid var(--line);border-radius:var(--r-l);background:var(--fill);padding:14px 16px;min-height:3.2em;
+  white-space:pre-wrap;font-size:15px;font-weight:600;color:var(--ink-body);line-height:1.74}
+.edit:focus{outline:2px solid var(--brand);outline-offset:1px;background:#fff}
+.edit[data-empty]::before{content:attr(data-ph);color:#aab1bd;font-weight:550}
+.edit.tasks{border-left:4px solid var(--brand)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field label{display:block;color:var(--ink-3);font-size:12.5px;font-weight:750;margin:0 0 5px}
+
+.ref{margin-top:34px;border-top:1px solid var(--line);padding-top:16px;color:var(--ink-3);font-size:12.5px;font-weight:600}
+.ref a{color:var(--brand-ink);font-weight:750}
+
+@media (max-width:640px){.grid2{grid-template-columns:1fr}.page{padding:26px 18px}}
+@media print{
+  body{background:#fff}
+  .toolbar,.ref .noprint{display:none!important}
+  .wrap{margin:0;max-width:none;padding:0}
+  .page{border:0;border-radius:0;padding:0;box-shadow:none}
+  .edit,.kpi{background:#fff;border-color:#d8dde5}
+  .kpi.accent{background:#fff}
+  section.blk{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <strong>주간 마케팅 성과 보고</strong>
+  <span class="sp"></span>
+  <span id="status" class="status">자동 저장됨</span>
+  <button id="btn-print" class="primary" type="button">인쇄 / PDF</button>
+  <button id="btn-reset" type="button">새 주차</button>
+</div>
+
+<div class="wrap">
+<div class="page">
+  <div class="brand">
+    <span class="name">아정당 보험대리점</span>
+    <span class="div"></span>
+    <span class="doc">주간 마케팅 성과 보고 · 사내 보고용</span>
+  </div>
+
+  <header class="hero">
+    <span class="eyebrow">WEEKLY REPORT</span>
+    <h1>주간 마케팅 <em>성과 보고</em></h1>
+    <p class="lede">금주 마케팅 핵심 성과와 채널별 평가, 다음 주 실행 과제와 의사결정 필요 사항을 한 장으로 정리합니다.</p>
+    <div class="meta">
+      <span class="m"><i>보고 기간</i><input type="date" id="p-start" value="2026-11-01"> ~ <input type="date" id="p-end" value="2026-11-10"></span>
+      <span class="m"><i>단위</i>DB·상담·계약 건 / 비용 원</span>
+    </div>
+  </header>
+
+  <section class="blk">
+    <span class="sec-num">01</span>
+    <h2>금주 핵심 성과</h2>
+    <div class="sub-h">DB · 상담 · 계약 · 비용</div>
+    <div class="kpis">
+      <div class="kpi"><label>인입 DB (총 DB)</label><div class="val"><input data-k="totalDb" inputmode="numeric" placeholder="0" value="342"><span class="unit">건</span></div></div>
+      <div class="kpi"><label>유효 DB <span style="font-weight:600;color:var(--ink-3)">(간이정의)</span></label><div class="val"><input data-k="validDb" inputmode="numeric" placeholder="0" value="339"><span class="unit">건</span></div></div>
+      <div class="kpi"><label>유효 DB율</label><div class="val"><input data-k="validRate" placeholder="자동"><span class="unit">%</span></div><div class="calc" id="calc-rate"></div></div>
+      <div class="kpi"><label>상담 연결</label><div class="val"><input data-k="consult" inputmode="numeric" placeholder="0" value="220"><span class="unit">건</span></div></div>
+      <div class="kpi"><label>상담 연결율</label><div class="val"><input data-k="connRate" placeholder="자동"><span class="unit">%</span></div><div class="calc" id="calc-conn"></div></div>
+      <div class="kpi accent"><label>계약 건수</label><div class="val"><input data-k="contract" inputmode="numeric" placeholder="0" value="18"><span class="unit">건</span></div></div>
+    </div>
+    <div class="sub-h" style="margin-top:18px">오가닉 콘텐츠 발행수</div>
+    <div class="kpis">
+      <div class="kpi"><label>카페</label><div class="val"><input data-k="pubCafe" inputmode="numeric" placeholder="0"><span class="unit">건</span></div></div>
+      <div class="kpi"><label>블로그</label><div class="val"><input data-k="pubBlog" inputmode="numeric" placeholder="0"><span class="unit">건</span></div></div>
+      <div class="kpi"><label>유튜브</label><div class="val"><input data-k="pubYoutube" inputmode="numeric" placeholder="0"><span class="unit">건</span></div></div>
+      <div class="kpi accent"><label>합계</label><div class="val"><input data-k="pubTotal" placeholder="자동"><span class="unit">건</span></div><div class="calc" id="calc-pub"></div></div>
+    </div>
+    <p class="hint" id="calc-pub-src"></p>
+    <p class="hint">인입 DB = 접수(DISCO) 전체 342 · 유효 DB(간이정의) = 인입 − 무효(기타·미분류) = 339 · 상담 연결 220 = 통화 연결 상태 합(상담완료·진행중·재통화·거절·계약) · 계약 18 = 상태 '계약'. 상담 연결율 = 상담 연결 ÷ 인입 DB. 콘텐츠 발행은 콘텐츠 보드 기준. (유효 DB율·상담 연결율·발행 합계 자동)</p>
+  </section>
+
+  <section class="blk">
+    <span class="sec-num">02</span>
+    <h2>주요 성과</h2>
+    <div class="edit" contenteditable data-k="wins" data-ph="• 금주 잘된 점을 적습니다 (한 줄에 하나씩)"></div>
+  </section>
+
+  <section class="blk">
+    <span class="sec-num">03</span>
+    <h2>주요 문제점</h2>
+    <div class="edit" contenteditable data-k="issues" data-ph="• 문제·리스크를 적습니다"></div>
+  </section>
+
+  <section class="blk">
+    <span class="sec-num">04</span>
+    <h2>상담 연결이 줄어드는 이유</h2>
+    <div class="sub-h">지난주 대비 상담 연결</div>
+    <div class="kpis">
+      <div class="kpi"><label>지난주 인입 DB</label><div class="val"><input data-k="prevDb" inputmode="numeric" placeholder="0"><span class="unit">건</span></div></div>
+      <div class="kpi"><label>지난주 상담 연결</label><div class="val"><input data-k="prevConsult" inputmode="numeric" placeholder="0"><span class="unit">건</span></div><div class="calc" id="calc-prev"></div></div>
+      <div class="kpi accent"><label>상담 연결 증감</label><div class="val"><input data-k="connDiff" placeholder="자동" readonly><span class="unit">건</span></div><div class="calc" id="calc-diff"></div></div>
+    </div>
+    <div class="sub-h" style="margin-top:18px">연결되지 않은 DB (금주)</div>
+    <div class="kpis">
+      <div class="kpi"><label>부재</label><div class="val"><input data-k="ncAbsent" inputmode="numeric" placeholder="0"><span class="unit">건</span></div></div>
+      <div class="kpi"><label>대기중 (미처리)</label><div class="val"><input data-k="ncWaiting" inputmode="numeric" placeholder="0"><span class="unit">건</span></div></div>
+      <div class="kpi"><label>기타·무효</label><div class="val"><input data-k="ncEtc" inputmode="numeric" placeholder="0"><span class="unit">건</span></div></div>
+      <div class="kpi accent"><label>미연결 합계</label><div class="val"><input data-k="ncTotal" placeholder="자동" readonly><span class="unit">건</span></div><div class="calc" id="calc-nc"></div></div>
+    </div>
+    <p class="hint">미연결 합계 = 인입 DB − 상담 연결. 부재·대기중·기타는 DISCO 상담 상태별 건수를 적으면 합계와 맞는지 아래에 표시합니다. 각 항목의 비중을 보고 원인을 적습니다.</p>
+    <div class="sub-h" style="margin-top:14px">원인과 대응</div>
+    <div class="edit" contenteditable data-k="connWhy" data-ph="• 부재 증가 — 통화 시도 횟수·시간대(점심·저녁) 확인&#10;• 대기중 미처리 — 상담 인력·배정 지연, 주말·공휴일 인입&#10;• DB 질 — 유입 채널·랜딩 변경, 중복·허위 번호&#10;• 인입 자체 감소 — 광고·콘텐츠 발행량 변화&#10;→ 대응: …"></div>
+  </section>
+
+  <section class="blk">
+    <span class="sec-num">05</span>
+    <h2>채널별 평가</h2>
+    <div class="grid2">
+      <div class="field"><label>성과 우수 채널</label><div class="edit" contenteditable data-k="chGood" data-ph="예) 꿀팁게시판 — 전환율 높음"></div></div>
+      <div class="field"><label>개선 필요 채널</label><div class="edit" contenteditable data-k="chBad" data-ph="예) 블로그 — 유입 대비 상담 저조"></div></div>
+      <div class="field" style="grid-column:1/-1"><label>신규 추진 채널</label><div class="edit" contenteditable data-k="chNew" data-ph="예) 인스타 릴스 테스트"></div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <span class="sec-num">06</span>
+    <h2>다음 주 핵심 실행 과제</h2>
+    <div class="edit tasks" contenteditable data-k="tasks" data-ph="1. …&#10;2. …&#10;3. …"></div>
+  </section>
+
+  <section class="blk">
+    <span class="sec-num">07</span>
+    <h2>의사결정 필요 사항</h2>
+    <div class="grid2">
+      <div class="field"><label>예산 승인</label><div class="edit" contenteditable data-k="dBudget" data-ph="필요 시 금액·사유"></div></div>
+      <div class="field"><label>인력 지원</label><div class="edit" contenteditable data-k="dPeople" data-ph=""></div></div>
+      <div class="field"><label>유관 부서 협조</label><div class="edit" contenteditable data-k="dDept" data-ph=""></div></div>
+      <div class="field"><label>기타</label><div class="edit" contenteditable data-k="dEtc" data-ph=""></div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <span class="sec-num">08</span>
+    <h2>종합 의견</h2>
+    <div class="edit" contenteditable data-k="summary" data-ph="금주 마케팅 성과 및 다음 주 운영 방향을 요약 기재합니다."></div>
+  </section>
+
+  <div class="ref">
+    <span class="noprint">참고 대시보드 —
+      <a href="https://aji-db.vercel.app/" target="_blank" rel="noopener">접수·체결 현황(aji-db) ↗</a> ·
+      채널 성과(content-journey) · 마케팅 비용(콘텐츠 보드)
+    </span>
+  </div>
+</div>
+</div>
+
+<script src="pub-data.js"></script>
+<script>
+(() => {
+  const KEY = 'ajd-weekly-report-v1';
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => [...document.querySelectorAll(s)];
+  const status = $('#status');
+  let t;
+  const flash = (msg) => { status.textContent = msg; clearTimeout(t); t = setTimeout(() => status.textContent = '자동 저장됨', 1200); };
+
+  const fields = $$('[data-k]');
+  const getVal = (el) => el.matches('input') ? el.value : el.innerText;
+  const setVal = (el, v) => { if (el.matches('input')) el.value = v || ''; else el.innerText = v || ''; };
+
+  function collect() {
+    const o = { _start: $('#p-start').value, _end: $('#p-end').value };
+    for (const el of fields) o[el.dataset.k] = getVal(el);
+    o._manual = fields.filter((el) => el.dataset.auto === '0').map((el) => el.dataset.k); // 직접 고친 자동 칸
+    return o;
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(collect())); flash('저장됨 ' + new Date().toLocaleTimeString('ko-KR').slice(0, 8)); }
+    catch (e) { flash('저장 불가(브라우저 설정)'); }
+  }
+  function restore() {
+    let o = {};
+    try { o = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { /* 없음 */ }
+    if (o._start) $('#p-start').value = o._start;
+    if (o._end) $('#p-end').value = o._end;
+    for (const el of fields) if (o[el.dataset.k]) setVal(el, o[el.dataset.k]);
+    for (const k of o._manual || []) { const el = $('[data-k="' + k + '"]'); if (el) el.dataset.auto = '0'; }
+  }
+
+  function calcRate() {
+    const total = Number(($('[data-k="totalDb"]').value || '').replace(/[,\s]/g, ''));
+    const valid = Number(($('[data-k="validDb"]').value || '').replace(/[,\s]/g, ''));
+    const el = $('[data-k="validRate"]');
+    const calc = $('#calc-rate');
+    if (total > 0 && valid >= 0) {
+      const r = (valid / total * 100);
+      if (!el.value || el.dataset.auto === '1') { el.value = r.toFixed(1); el.dataset.auto = '1'; }
+      calc.textContent = `자동: ${valid.toLocaleString()} / ${total.toLocaleString()} = ${r.toFixed(1)}%`;
+    } else { calc.textContent = ''; }
+  }
+  $('[data-k="validRate"]').addEventListener('input', (e) => { e.target.dataset.auto = '0'; });
+
+  const numOf = (k) => { const el = $('[data-k="' + k + '"]'); const s = el ? String(el.value || '').replace(/[,\s]/g, '') : ''; return s === '' ? null : Number(s); };
+  const pct1 = (a, b) => (a / b * 100).toFixed(1);
+
+  // 상담 연결율 = 상담 연결 ÷ 인입 DB, 지난주 대비 증감, 미연결 내역.
+  function calcConn() {
+    const total = numOf('totalDb'), consult = numOf('consult');
+    const el = $('[data-k="connRate"]'), calc = $('#calc-conn');
+    if (total > 0 && consult != null) {
+      const r = pct1(consult, total);
+      if (!el.value || el.dataset.auto === '1') { el.value = r; el.dataset.auto = '1'; }
+      calc.textContent = `자동: ${consult.toLocaleString()} / ${total.toLocaleString()} = ${r}%`;
+    } else { calc.textContent = ''; }
+
+    const pDb = numOf('prevDb'), pCon = numOf('prevConsult');
+    const prevCalc = $('#calc-prev'), diffEl = $('[data-k="connDiff"]'), diffCalc = $('#calc-diff');
+    prevCalc.textContent = pDb > 0 && pCon != null ? `지난주 연결율 ${pct1(pCon, pDb)}%` : '';
+    if (pCon != null && consult != null) {
+      const d = consult - pCon;
+      diffEl.value = (d > 0 ? '+' : '') + d;
+      const rate = total > 0 && pDb > 0 ? ` · 연결율 ${(consult / total * 100 - pCon / pDb * 100 >= 0 ? '+' : '')}${(consult / total * 100 - pCon / pDb * 100).toFixed(1)}%p` : '';
+      diffCalc.textContent = (pCon > 0 ? `${d >= 0 ? '+' : ''}${(d / pCon * 100).toFixed(1)}%` : '') + rate;
+    } else { diffEl.value = ''; diffCalc.textContent = ''; }
+
+    const ncEl = $('[data-k="ncTotal"]'), ncCalc = $('#calc-nc');
+    if (total != null && consult != null) {
+      const nc = total - consult;
+      ncEl.value = String(nc);
+      const parts = [['부재', numOf('ncAbsent')], ['대기중', numOf('ncWaiting')], ['기타', numOf('ncEtc')]].filter(([, v]) => v != null);
+      const sum = parts.reduce((s, [, v]) => s + v, 0);
+      const share = nc > 0 ? parts.map(([n, v]) => `${n} ${pct1(v, nc)}%`).join(' · ') : '';
+      ncCalc.textContent = parts.length ? `${share}${sum !== nc ? ` (입력 합 ${sum}, 차이 ${nc - sum})` : ''}` : `인입 ${total} − 연결 ${consult}`;
+    } else { ncEl.value = ''; ncCalc.textContent = ''; }
+  }
+  $('[data-k="connRate"]').addEventListener('input', (e) => { e.target.dataset.auto = '0'; });
+
+  // 오가닉 콘텐츠 발행수: 대시보드와 같은 콘텐츠 보드 발행일(pub-data.js)로 보고 기간 안의 건수를 채운다.
+  // 칸을 직접 고치면 그 칸은 자동으로 덮어쓰지 않는다.
+  const PUB_KEYS = { pubCafe: '카페', pubBlog: '블로그', pubYoutube: '유튜브' };
+  function fillPub() {
+    const data = window.CJ_PUB, calc = $('#calc-pub-src');
+    if (!data || !Array.isArray(data.rows)) { if (calc) calc.textContent = '발행 데이터(pub-data.js)를 찾지 못해 직접 입력합니다.'; return; }
+    const s = $('#p-start').value, e = $('#p-end').value;
+    if (!s || !e) return;
+    for (const [k, ch] of Object.entries(PUB_KEYS)) {
+      const el = $('[data-k="' + k + '"]');
+      if (el.dataset.auto === '0') continue;
+      el.value = String(data.rows.filter((r) => r['채널'] === ch && r['발행일'] >= s && r['발행일'] <= e).length);
+      el.dataset.auto = '1';
+    }
+    const t = $('[data-k="pubTotal"]'); if (t) t.dataset.auto = '1';
+    if (calc) calc.textContent = `콘텐츠 보드 발행일 기준 자동 (${s} ~ ${e}, 대시보드 데이터 ${String(data.generated_at || '').replace('T', ' ').slice(0, 16)})`;
+  }
+  for (const k of Object.keys(PUB_KEYS)) $('[data-k="' + k + '"]').addEventListener('input', (ev) => { ev.target.dataset.auto = '0'; });
+
+  function sumPub() {
+    const el = $('[data-k="pubTotal"]');
+    if (!el) return;
+    const num = (k) => Number(($('[data-k="' + k + '"]').value || '').replace(/[,\s]/g, '')) || 0;
+    const tt = num('pubCafe') + num('pubBlog') + num('pubYoutube');
+    if (!el.value || el.dataset.auto === '1') { el.value = String(tt); el.dataset.auto = '1'; }
+    const calc = $('#calc-pub'); if (calc) calc.textContent = tt > 0 ? `자동 합계: ${tt}건` : '';
+  }
+  if ($('[data-k="pubTotal"]')) $('[data-k="pubTotal"]').addEventListener('input', (e) => { e.target.dataset.auto = '0'; });
+
+  function phToggle(el) {
+    if (!el.matches('.edit')) return;
+    if (el.innerText.trim() === '') el.setAttribute('data-empty', ''); else el.removeAttribute('data-empty');
+  }
+
+  function onInput(e) {
+    const el = e.target.closest('[data-k]');
+    if (el) {
+      phToggle(el);
+      if (['totalDb', 'validDb'].includes(el.dataset.k)) calcRate();
+      if (['totalDb', 'consult', 'prevDb', 'prevConsult', 'ncAbsent', 'ncWaiting', 'ncEtc'].includes(el.dataset.k)) calcConn();
+      if (['pubCafe', 'pubBlog', 'pubYoutube'].includes(el.dataset.k)) sumPub();
+    }
+    save();
+  }
+  document.addEventListener('input', onInput);
+  const onPeriod = () => { fillPub(); sumPub(); save(); };
+  $('#p-start').addEventListener('change', onPeriod);
+  $('#p-end').addEventListener('change', onPeriod);
+
+  $('#btn-print').addEventListener('click', () => window.print());
+  $('#btn-reset').addEventListener('click', () => {
+    if (!confirm('새 주차로 초기화할까요? (입력 내용이 지워집니다)')) return;
+    for (const el of fields) setVal(el, '');
+    $$('.edit').forEach(phToggle);
+    $('[data-k="validRate"]').dataset.auto = '1';
+    $('[data-k="pubTotal"]').dataset.auto = '1';
+    $('[data-k="connRate"]').dataset.auto = '1';
+    calcConn();
+    $('#calc-rate').textContent = '';
+    $('#calc-pub').textContent = '';
+    save();
+  });
+
+  restore();
+  $$('.edit').forEach(phToggle);
+  calcRate();
+  calcConn();
+  fillPub();
+  sumPub();
+})();
+</script>
+</body>
+</html>
