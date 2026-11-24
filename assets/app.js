@@ -2,7 +2,8 @@
 (() => {
   const FIRST = '2026-08-24'; // Mixpanel 보험 랜딩 측정 시작일
   const ORDER = ['유튜브', '블로그', '카페', '인스타', '꿀팁게시판', '커뮤니티'];
-  const MEDIUM = { youtube: '유튜브', blog: '블로그', cafe: '카페', Instagram_Reels: '인스타', Instagram_Feed: '인스타', Instagram_Stories: '인스타', instagram: '인스타', basictip: '꿀팁게시판', community: '커뮤니티' };
+  // 메타 유료 광고(utm_medium Instagram_Reels·Feed·Stories)는 오가닉이 아니라서 뺀다.
+  const MEDIUM = { youtube: '유튜브', blog: '블로그', cafe: '카페', instagram: '인스타', 'ajd.insu': '인스타', insu: '인스타', basictip: '꿀팁게시판', community: '커뮤니티' };
   const KEY_COL = 'Mixpanel 키 (utm_content 일부)';
 
   const fmt = d3.format(',');
