@@ -22,8 +22,9 @@ BOARD_SHEET_ID = os.environ.get("BOARD_SHEET_ID", "11VR6Ft82By0vtfosHL5Fb9ofrvz5
 BOARD_RANGE = "'콘텐츠 보드'!A5:AZ300"
 # 화면이 쓰는 열만 돌려준다. 시트에 열이 추가돼도 이름으로 찾는다.
 BOARD_COLUMNS = ["채널", "콘텐츠 주제", "현재 단계", "담당자", "발행일", "Mixpanel 키 (utm_content 일부)", "조회수", "비용(원)"]
-OWNED_MEDIUMS = ["youtube", "blog", "cafe", "Instagram_Reels", "Instagram_Feed", "Instagram_Stories",
-                 "instagram", "community", "basictip"]
+# 메타 유료 광고(utm_medium Instagram_Reels·Instagram_Feed·Instagram_Stories)는 오가닉이 아니라서 뺀다.
+# 오가닉 인스타 계정(@ajd.insu) 링크는 utm_medium이 instagram, ajd.insu, insu(리틀리 무료상담)로 들어온다.
+OWNED_MEDIUMS = ["youtube", "blog", "cafe", "instagram", "ajd.insu", "insu", "community", "basictip"]
 
 # 접수(상담 DB): 'AJI_비전속GA_계약리스트' 스프레드시트. 서비스 계정에 읽기(뷰어) 공유 필요.
 INTAKE_SHEET_ID = os.environ.get("INTAKE_SHEET_ID", "14jsEGRKFuigYEoC61vk57KcrBBAxAzQ9V9VslKyMQY4")
